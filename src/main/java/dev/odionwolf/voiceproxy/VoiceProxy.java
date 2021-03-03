@@ -1,6 +1,7 @@
 package dev.odionwolf.voiceproxy;
 
 import dev.odionwolf.voiceproxy.commands.ProxyCommand;
+import dev.odionwolf.voiceproxy.discordbot.DiscordBotCommandSync;
 import dev.odionwolf.voiceproxy.events.ProxyEvent;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -31,6 +32,7 @@ public final class VoiceProxy extends JavaPlugin {
     @Override
     public void onEnable() {
         createConfigData();
+        createConfigPlayer();
         new ProxyEvent(this);
         new ProxyCommand(this);
         List<GatewayIntent> gatewayIntents = new ArrayList<>();

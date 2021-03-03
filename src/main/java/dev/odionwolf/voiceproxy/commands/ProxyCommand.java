@@ -1,9 +1,11 @@
 package dev.odionwolf.voiceproxy.commands;
 
 import dev.odionwolf.voiceproxy.VoiceProxy;
+import dev.odionwolf.voiceproxy.util.UtilMessage;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.requests.RestAction;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -15,7 +17,7 @@ import java.util.UUID;
 
 public class ProxyCommand implements CommandExecutor {
 
-    private VoiceProxy voiceProxy;
+    private final VoiceProxy voiceProxy;
 
     public String waiting;
     public String proxy;
@@ -52,9 +54,15 @@ public class ProxyCommand implements CommandExecutor {
         }
         if (args.length == 1 && args[0].equalsIgnoreCase("sync")) {
             String randomString = UUID.randomUUID().toString();
-            player.sendMessage(randomString);
+            UtilMessage.sendClickablemessage(player, ChatColor.translateAlternateColorCodes('&',
+                    "&bType -sync " + randomString + " to sync your account with discord"));
             String playerMC = player.getName();
-            voiceProxy.getConfigPlayer().set("Players" + ".", playerMC);
+            voiceProxy.getConfigPlayer().set("Players" + "." + randomString + ".minecraft", playerMC);
+            try {
+                voiceProxy.saveConfigPlayer();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         if (args.length == 2 && args[0].equalsIgnoreCase("move")) {
             Guild guild = voiceProxy.jda.getGuildById(Objects.requireNonNull(voiceProxy.getConfigData().getString("GuildID")));

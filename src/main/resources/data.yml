@@ -1,8 +1,10 @@
-Token: //Bot token
+Token: "" //Bot token
 
-Proxy:
+Proxy: ""
 
-Waiting: //Channel used for people waiting for proxy chat
+Waiting: ""//Channel used for people waiting for proxy chat
 
-GuildID: //The Guild ID which the bot is in
+GuildID: ""//The Guild ID which the bot is in
+
+Prefix: "-"
 

@@ -3,7 +3,6 @@ package dev.odionwolf.voiceproxy.events;
 import dev.odionwolf.voiceproxy.VoiceProxy;
 import dev.odionwolf.voiceproxy.commands.ProxyCommand;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
