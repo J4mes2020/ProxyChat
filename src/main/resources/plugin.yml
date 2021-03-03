@@ -1,0 +1,12 @@
+name: VoiceProxy
+version: ${project.version}
+main: dev.odionwolf.voiceproxy.VoiceProxy
+api-version: 1.16
+authors: [ OdionWolf ]
+description: Proximity chat for minecraft
+website: odionwolf.dev
+
+commands:
+  voiceproxy:
+    aliases: vp
+    description: Command for voice proxy
