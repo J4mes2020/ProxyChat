@@ -38,6 +38,7 @@ public final class VoiceProxy extends JavaPlugin {
         List<GatewayIntent> gatewayIntents = new ArrayList<>();
         gatewayIntents.add(GatewayIntent.GUILD_VOICE_STATES);
         JDABuilder jdaBuilder = JDABuilder.createDefault(getConfigData().getString("Token"));
+        jdaBuilder.addEventListeners(new DiscordBotCommandSync(this));
         jdaBuilder.enableIntents(gatewayIntents);
         jdaBuilder.setActivity(Activity.listening("players"));
         jdaBuilder.setStatus(OnlineStatus.ONLINE);
@@ -52,6 +53,7 @@ public final class VoiceProxy extends JavaPlugin {
     public FileConfiguration getConfigData() {
         return this.customConfigData;
     }
+
 
     private void createConfigData() {
         customConfigDataFile = new File(getDataFolder(), "data.yml");

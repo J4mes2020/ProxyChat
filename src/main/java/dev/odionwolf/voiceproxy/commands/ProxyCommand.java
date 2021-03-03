@@ -1,10 +1,11 @@
 package dev.odionwolf.voiceproxy.commands;
 
 import dev.odionwolf.voiceproxy.VoiceProxy;
-import dev.odionwolf.voiceproxy.util.UtilMessage;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.requests.RestAction;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -54,8 +55,14 @@ public class ProxyCommand implements CommandExecutor {
         }
         if (args.length == 1 && args[0].equalsIgnoreCase("sync")) {
             String randomString = UUID.randomUUID().toString();
-            UtilMessage.sendClickablemessage(player, ChatColor.translateAlternateColorCodes('&',
-                    "&bType -sync " + randomString + " to sync your account with discord"));
+
+
+            TextComponent msg = new TextComponent();
+            msg.setClickEvent(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, msg.toString()));
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                    "&3Type &b" + voiceProxy.getConfigData().getString("Prefix") + "sync " + randomString + "&3 to sync your account with discord"));
+
+
             String playerMC = player.getName();
             voiceProxy.getConfigPlayer().set("Players" + "." + randomString + ".minecraft", playerMC);
             try {
