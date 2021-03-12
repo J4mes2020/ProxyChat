@@ -11,7 +11,9 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitScheduler;
 
 import javax.security.auth.login.LoginException;
 import java.io.File;
@@ -23,31 +25,44 @@ import java.util.logging.Level;
 public final class VoiceProxy extends JavaPlugin {
 
     public JDA jda;
+    private ProxyCommand proxyCommand;
+    private ProxyEvent proxyEvent;
 
     private File customConfigDataFile;
     private File customConfigPlayerFile;
     private FileConfiguration customConfigData;
     private FileConfiguration customConfigPlayer;
 
+
     @Override
     public void onEnable() {
         createConfigData();
         createConfigPlayer();
-        new ProxyEvent(this);
-        new ProxyCommand(this);
+        proxyEvent = new ProxyEvent(this);
+        proxyCommand = new ProxyCommand(this);
         List<GatewayIntent> gatewayIntents = new ArrayList<>();
         gatewayIntents.add(GatewayIntent.GUILD_VOICE_STATES);
         JDABuilder jdaBuilder = JDABuilder.createDefault(getConfigData().getString("Token"));
-        jdaBuilder.addEventListeners(new DiscordBotCommandSync(this));
+        jdaBuilder.addEventListeners(new DiscordBotCommandSync(this, proxyCommand));
         jdaBuilder.enableIntents(gatewayIntents);
         jdaBuilder.setActivity(Activity.listening("players"));
-        jdaBuilder.setStatus(OnlineStatus.ONLINE);
+        jdaBuilder.setStatus(OnlineStatus.DO_NOT_DISTURB);
         try {
             jda = jdaBuilder.build();
             jda.awaitReady();
         } catch (LoginException | InterruptedException e) {
             getLogger().log(Level.SEVERE, "There is no token specified in" + customConfigDataFile, e);
         }
+        BukkitScheduler scheduler = getServer().getScheduler();
+        scheduler.scheduleSyncRepeatingTask(this, new Runnable() {
+            @Override
+            public void run() {
+                for (Object values : proxyEvent.playerLocationHashMap.values()) {
+                    if () //Loop through all players location to check if its less than a set number, if so
+                        //add em
+                }
+            }
+        }, 0L, 40L);
     }
 
     public FileConfiguration getConfigData() {
